@@ -1,0 +1,2 @@
+# Tüm kullanılanlar standart kütüphane ama genişletme için şunlar eklenebilir:
+requests
