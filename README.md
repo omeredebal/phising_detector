@@ -20,3 +20,61 @@ URL'leri analiz ederek **phishing (oltalama) saldırılarını tespit** etmeye y
 
 ```bash
 $ python phishing_detector.py https://secure-login.paypa1.com
+
+## Çıktı:
+
+{
+    "URL": "https://secure-login.paypa1.com",
+    "Durum": "🚨 ŞÜPHELİ!",
+    "Toplam Risk Skoru": 9,
+    "Nedenler": [
+        "'paypa1' şüpheli domain benzerliği",
+        "'login' kelimesi içeriyor",
+        "Alan adında '-' karakteri var",
+        "Şüpheli TLD uzantısı (.com değilse)",
+        "SSL sertifikası alınamıyor"
+    ]
+}
+
+📁 Proje Klasör Yapısı:
+
+phishing-url-detector/
+│
+├── phishing_detector.py       # CLI uygulaması
+├── indicators.py              # URL analiz göstergeleri
+├── requirements.txt           # Bağımlılıklar (opsiyonel)
+├── .gitignore                 # Gereksiz dosyaları dışlama
+├── LICENSE                    # MIT lisansı
+└── README.md                  # Bu dosya
+
+🔧 Kurulum
+
+Python 3.7+ sürümünün sisteminizde yüklü olduğundan emin olun:
+git clone https://github.com/omeredebal/phishing-detector.git
+cd phishing-url-detector
+pip install -r requirements.txt
+
+📌 Kullanım:
+
+python phishing_detector.py <URL>
+
+Örnek:
+python phishing_detector.py https://example.com
+
+🧠 Genişletilebilirlik:
+Proje yapısı modüler olacak şekilde hazırlandı.
+Yeni analiz göstergeleri eklemek için indicators.py dosyasına yeni fonksiyonlar yazabilir, phishing_detector.py dosyasına entegre edebilirsiniz.
+
+⚖️ Lisans
+Bu proje MIT Lisansı ile lisanslanmıştır. Özgürce kullanabilir, geliştirebilir ve paylaşabilirsiniz.
+
+✨ Katkı Sağla
+Katkılara açığız! Yeni tespit metotları, False Positive filtreleri ya da arayüz geliştirmeleri için pull request gönderebilirsiniz.
+
+🙌 Geliştirici
+Ömer Edebalı
+👨‍💻 Yazılım Mühendisliği 3. sınıf öğrencisi | Aday Siber Güvenlik Uzmanı
+📫 LinkedIn Profilim: https://www.linkedin.com/in/omeredebal/
+
+⭐ Destek Olmak İstersen
+Projeyi faydalı bulduysan, GitHub üzerinde ⭐ vermeyi unutma!
