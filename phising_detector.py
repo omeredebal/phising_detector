@@ -1,76 +1,63 @@
-import sys
 import json
-from indicators import (
-    check_ip_address,
-    check_https,
-    check_url_length,
-    check_at_symbol,
-    check_hyphen_in_domain,
-    check_many_slashes,
-    check_complex_domain,
-    check_suspicious_tlds,
-    check_keywords,
-    check_typosquatting,
-    check_ssl_certificate
-)
+import sys
+from urllib.parse import urlparse
 
+# URL'yi analiz etme ve risk değerlendirmesi yapma
 def analyze_url(url):
-    score = 0
-    reasons = []
-
-    # URL'i analiz et
-    if not url.startswith("http"):
-        url = "http://" + url  # https veya http olmadığında, http ile başlat
-
+    # URL'yi çözümle
     parsed = urlparse(url)
-    domain = parsed.netloc
-
-    results = []
-
-    # Göstergeleri kontrol et
-    check_ip_address(url, domain, results)
-    check_https(url, domain, results)
-    check_url_length(url, domain, results)
-    check_at_symbol(url, domain, results)
-    check_hyphen_in_domain(url, domain, results)
-    check_many_slashes(url, domain, results)
-    check_complex_domain(url, domain, results)
-    check_suspicious_tlds(url, domain, results)
-    check_keywords(url, domain, results)
-    check_typosquatting(url, domain, results)
     
-    if url.startswith("https://"):
-        check_ssl_certificate(domain, results)
-
-    # Sonuçları işle
-    for reason, point in results:
-        score += point
-        reasons.append(reason)
-
-    # Risk puanına göre sonuca karar ver
-    if score >= 7:
-        verdict = "🚨 ŞÜPHELİ!"
-    elif score >= 4:
-        verdict = "⚠️ Riskli"
-    else:
-        verdict = "✅ Güvenli görünüyor."
-
-    # Çıktı olarak JSON formatında döndür
+    # Risk analizini yapacak göstergeler (example)
     result = {
         "URL": url,
-        "Durum": verdict,
-        "Toplam Risk Skoru": score,
-        "Nedenler": reasons
+        "Durum": "🚨 ŞÜPHELİ!",
+        "Toplam Risk Skoru": 0,
+        "Nedenler": []
     }
-    
-    return json.dumps(result, indent=4)
 
+    # HTTPS kontrolü
+    if parsed.scheme != "https":
+        result["Nedenler"].append("HTTPS kullanılmıyor")
+        result["Toplam Risk Skoru"] += 5
+    
+    # Alan adında '-' karakteri olup olmadığını kontrol et
+    if "-" in parsed.netloc:
+        result["Nedenler"].append("Alan adında '-' karakteri var")
+        result["Toplam Risk Skoru"] += 2
+    
+    # 'bank' kelimesinin URL içinde olup olmadığını kontrol et
+    if "bank" in parsed.netloc:
+        result["Nedenler"].append("'bank' kelimesi içeriyor")
+        result["Toplam Risk Skoru"] += 1
+
+    # 'login' kelimesinin URL içinde olup olmadığını kontrol et
+    if "login" in parsed.netloc:
+        result["Nedenler"].append("'login' kelimesi içeriyor")
+        result["Toplam Risk Skoru"] += 1
+
+    # 'secure' kelimesinin URL içinde olup olmadığını kontrol et
+    if "secure" in parsed.netloc:
+        result["Nedenler"].append("'secure' kelimesi içeriyor")
+        result["Toplam Risk Skoru"] += 1
+
+    # 'update' kelimesinin URL içinde olup olmadığını kontrol et
+    if "update" in parsed.netloc:
+        result["Nedenler"].append("'update' kelimesi içeriyor")
+        result["Toplam Risk Skoru"] += 1
+
+    # Eğer risk skoru 5 veya daha yüksekse, ŞÜPHELİ!
+    if result["Toplam Risk Skoru"] > 0:
+        result["Durum"] = "🚨 ŞÜPHELİ!"
+    else:
+        result["Durum"] = "✅ Güvenli görünüyor."
+    
+    # JSON çıktısını düzgün bir şekilde yazdırma (Türkçe karakterlerle)
+    return json.dumps(result, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Kullanım: python phishing_detector.py <URL>")
-        sys.exit(1)
-
-    url = sys.argv[1]
-    result = analyze_url(url)
-    print(result)
+    if len(sys.argv) > 1:
+        url = sys.argv[1]
+        result = analyze_url(url)
+        print(result)
+    else:
+        print("Lütfen bir URL girin.")
