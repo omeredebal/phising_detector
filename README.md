@@ -50,8 +50,8 @@ phishing-url-detector/
 🔧 Kurulum
 
 Python 3.7+ sürümünün sisteminizde yüklü olduğundan emin olun:
-git clone https://github.com/omeredebal/phishing-detector.git
-cd phishing-url-detector
+git clone https://github.com/omeredebal/phishing_detector.git
+cd phishing_detector
 pip install -r requirements.txt
 
 📌 Kullanım:
@@ -73,7 +73,7 @@ Katkılara açığız! Yeni tespit metotları, False Positive filtreleri ya da a
 
 🙌 Geliştirici
 Ömer Edebalı
-👨‍💻 Yazılım Mühendisliği 3. sınıf öğrencisi | Aday Siber Güvenlik Uzmanı
+👨‍💻 Yazılım Mühendisliği 3. sınıf öğrencisi | Siber Güvenlik Uzmanı Adayı
 📫 LinkedIn Profilim: https://www.linkedin.com/in/omeredebal/
 
 ⭐ Destek Olmak İstersen
